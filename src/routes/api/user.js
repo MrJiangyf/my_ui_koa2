@@ -1,5 +1,5 @@
 /**
- * @description user 注册路由
+ * @description 用户相关接口
  */
 const {loginCheck} = require("../../middlewares/loginChecks");
 const router = require('koa-router')();

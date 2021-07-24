@@ -2,8 +2,7 @@
  * @description 时间相关的工具函数
  * @author 双越老师
  */
-
-const { format } = require('date-fns')
+const { format } = require('date-fns');
 
 /**
  * 格式化时间，如 09.05 23:02

@@ -17,8 +17,6 @@ let MYSQL_CONF = {
     port: "3306",
     database: "koa2_weibo_db"
 }
-// grant all privileges on koa2_weibo_db.* to jiangyf@localhost identified by 'Zlh@1234';
-// grant all on koa2_weibo_db.* to 'jiangyf'@'%' identified by '123456' with grant option;
 
 module.exports = {
     REDIS_CONF,

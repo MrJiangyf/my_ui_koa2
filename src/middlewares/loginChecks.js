@@ -3,7 +3,7 @@
  * @author 双越老师
  */
 
-const { ErrorModel } = require('../model/ResModel')
+const { ErrorModel } = require('../model/ResModel');
 
 
 /**
@@ -14,7 +14,7 @@ const { ErrorModel } = require('../model/ResModel')
 async function loginCheck(ctx, next) {
     if (ctx.session && ctx.session.userInfo) {
         // 已登录
-        await next()
+        await next();
         return
     }
     // 未登录
@@ -32,12 +32,12 @@ async function loginCheck(ctx, next) {
 async function loginRedirect(ctx, next) {
     if (ctx.session && ctx.session.userInfo) {
         // 已登录
-        await next()
-        return
+        await next();
+        return;
     }
     // 未登录
-    const curUrl = ctx.url
-    ctx.redirect('/login?url=' + encodeURIComponent(curUrl))
+    const curUrl = ctx.url;
+    ctx.redirect('/login?url=' + encodeURIComponent(curUrl));
 }
 
 module.exports = {

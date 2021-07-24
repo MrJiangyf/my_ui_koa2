@@ -1,3 +1,6 @@
+/**
+ * 存放通用的工具接口：上传图片、获取博客类型之类
+ * */
 const router = require('koa-router')();
 const { loginCheck } = require("../../middlewares/loginChecks");
 const koaFrom = require("formidable-upload-koa");
@@ -23,6 +26,5 @@ router.post("/upload", loginCheck, koaFrom(), async (ctx, next) => {
 router.get("/getEnums", loginCheck, koaFrom(), async (ctx, next) => {
     ctx.body = await getEnums()
 });
-
 
 module.exports = router;

@@ -8,9 +8,12 @@ const {create} = require("../../controller/blog-home");
 const {genValidator} = require("../../middlewares/validator");
 const blogValidate = require("../../validator/blog");
 
+/**
+ * 新增博客内容接口
+ * */
 router.post("/create", loginCheck, genValidator(blogValidate), async (ctx, next) => {
     const {content, image, title, type}  = ctx.request.body;
-    const {id} = ctx.session.userInfo
+    const {id} = ctx.session.userInfo;
     const  userId = id;
     ctx.body = await create({userId, content, image, title, type});
 });

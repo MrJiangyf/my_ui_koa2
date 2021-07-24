@@ -1,3 +1,6 @@
+/**
+ *@description 连接redis方法： get  set
+ */
 const redis = require("redis");
 const {REDIS_CONF} = require("../conf/db");
 

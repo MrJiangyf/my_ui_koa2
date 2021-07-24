@@ -38,4 +38,4 @@ Enums.create({
 seq.sync({force: false}).then(() => {
     console.log("sync ok");
     process.exit();
-})
+});
