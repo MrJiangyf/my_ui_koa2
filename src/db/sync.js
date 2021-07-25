@@ -13,6 +13,13 @@ seq.authenticate().then(() => {
     console.log("------------- sequelize连接失败 -------------");
 });
 
+// 根据model自定创建表
+// force：true表示当数据库有相应的数据模型（表），如：users的时候会无条件将users表删除
+seq.sync({ force: true }).then(() => {
+    console.log("------------- 数据库表初始化完毕 -------------");
+    process.exit();
+});
+
 
 // 初始化枚举表数据
 Enums.create({
@@ -34,11 +41,4 @@ Enums.create({
 Enums.create({
     code: '05',
     label: 'typeScript'
-});
-
-// 根据model自定创建表
-// force：true表示当数据库有相应的数据模型（表），如：users的时候会无条件将users表删除
-seq.sync({ force: false }).then(() => {
-    console.log("------------- 数据库表初始化完毕 -------------");
-    process.exit();
 });

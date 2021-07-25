@@ -74,6 +74,22 @@ app.use(session({
 }));
 
 /**
+ * 统一处理错误
+ * 由于next(),会调用下一个中间件函数（下一个中间件的next也同理），因此当执行后面的next函数出错时，会被捕获到。
+ * */
+app.use(async (ctx, next) => {
+   try {
+       await next();
+   } catch (err) {
+       console.log(`出错了，原因：${err}!`);
+       ctx.body = {
+           code: 500,
+           msg: `出错了，原因：${err}!`
+       };
+   }
+});
+
+/**
  * 路由相关
  * */
 app.use(index.routes(), index.allowedMethods());
