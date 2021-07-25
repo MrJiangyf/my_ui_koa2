@@ -17,8 +17,7 @@ const {isTest} = require("../../utils/env");
  * 用户名是否存在
  */
 router.post("/isExist", async (ctx, next) => {
-    debugger
-    const {userName} = ctx.request.body
+    const {userName} = ctx.request.body;
 
     let result = await isExist(userName);
     ctx.body = result;

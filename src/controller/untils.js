@@ -27,7 +27,7 @@ async function saveFile({name, type, size, filePath}) {
         await fse.remove(filePath);
         return new ErrorModel({
             data: "",
-            msg: "文件过大，不能超过1"
+            msg: `文件过大，不能超过${MIX_SIZE}!`
         })
     }
 

@@ -7,7 +7,8 @@ const {SuccessModel, ErrorModel} = require("../model/ResModel");
 const {doCrypto} = require("../utils/cryp");
 const {set} = require("../db/redis");
 
-const {registerUserNameNotExistInfo, registerUserNameExistInfos, registerFailInfo, loginFaileInfos} = require("../model/ErrorInfos");
+const {registerUserNameExistInfo, registerFailInfo, loginFailInfo, changePasswordFailInfo,
+    getUserInfoFailInfo, changeInfoFailInfo} = require("../model/ErrorInfos");
 /**
  * @description 用户名是否存在
  */
@@ -16,8 +17,8 @@ async function isExist(userName) {
     if(userInfos) {
         // {code: 500, data: uerInfos, msg: "用户名已存在"}
         return new ErrorModel({
-            userInfos,
-            ...registerUserNameNotExistInfo
+            data: userInfos,
+            ...registerUserNameExistInfo
         })
     }else {
         // {code: 200, data: userInfos, msg: "用户名不存在"}
@@ -39,7 +40,7 @@ async function register({userName, password, gender}) {
     const userInfo = await getUserInfos(userName);
     //先对用户名校验是否存在
     if(userInfo) {
-        return new ErrorModel(registerUserNameExistInfos);
+        return new ErrorModel(registerUserNameExistInfo);
     }
 
     //注册 service
@@ -81,7 +82,7 @@ async function login(ctx, userName, password) {
             data: ""
         })
     }else {
-        return  new ErrorModel(loginFaileInfos);
+        return  new ErrorModel(loginFailInfo);
     }
 }
 
@@ -113,10 +114,7 @@ async function deleteCurUser(userName) {
 async function getUserInfo(userName) {
     const userInfos = await getUserInfos(userName);
     if(!userInfos) {
-        return new ErrorModel({
-            data: "",
-            msg: "获取用户基本信息失败"
-        })
+        return new ErrorModel(getUserInfoFailInfo)
     }else {
         return  new SuccessModel({
             data: userInfos,
@@ -157,10 +155,7 @@ async function changeInfo(ctx, {nickName, city, picture}) {
             data: ""
         })
     }else {
-        return new ErrorModel({
-            data: "",
-            msg: "修改用户信息失败"
-        })
+        return new ErrorModel(changeInfoFailInfo);
     }
 
 }
@@ -180,10 +175,7 @@ async function changePassword({userName, password, newPassword}) {
             data: ""
         })
     }else {
-        return new ErrorModel({
-            data: "",
-            msg: "修改用户密码失败"
-        })
+        return new ErrorModel(changePasswordFailInfo)
     }
 }
 

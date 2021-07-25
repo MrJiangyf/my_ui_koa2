@@ -18,7 +18,7 @@ async function getProfileBlogList({userName, pageIndex = 0, pageSize}) {
             count: result.count
         },
         msg: "获取博客列表成功"
-    })
+    });
 }
 
 module.exports = {
