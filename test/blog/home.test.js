@@ -8,8 +8,8 @@ const {COOKIE} = require("../testUserInfo");
 
 let BLOG_ID = "";
 
-test("创建一条微博， 应该成功", async () => {
-    const content = `微博内容${Date.now()}`;
+test("创建一条博客， 应该成功", async () => {
+    const content = `博客内容${Date.now()}`;
     const image = "我是图片";
 
     const res = await server

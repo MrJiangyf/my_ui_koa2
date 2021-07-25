@@ -11,8 +11,9 @@ router.prefix("/api/profile");
  * 个人主页博客列表数据
  */
 router.post("/getBlogList", loginCheck, async (ctx, next) => {
-    const {pageIndex, pageSize, userName} = ctx.request.body;
-    // 获取微博第一页的数据
+    const {pageIndex, pageSize} = ctx.request.body;
+    const {userName} = ctx.session.userInfo;
+    // 获取博客第一页的数据
     const result = await getProfileBlogList({
         userName,
         pageIndex: pageIndex || 1,

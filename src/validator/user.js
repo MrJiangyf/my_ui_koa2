@@ -3,7 +3,7 @@
  * @author 双越老师
  */
 
-const validate = require('./_validate')
+const validate = require('./_validate');
 
 // 校验规则
 const SCHEMA = {
@@ -11,7 +11,7 @@ const SCHEMA = {
     properties: {
         userName: {
             type: 'string',
-            pattern: '^[a-zA-Z][a-zA-Z0-9_]+$', // 字母开头，字母数字下划线
+            // pattern: '^[a-zA-Z][a-zA-Z0-9_]+$', // 字母开头，字母数字下划线
             maxLength: 255,
             minLength: 2
         },
@@ -54,4 +54,4 @@ function userValidate(data = {}) {
     return validate(SCHEMA, data)
 }
 
-module.exports = userValidate
+module.exports = userValidate;

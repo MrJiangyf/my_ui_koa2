@@ -9,12 +9,13 @@ const {User} = require("../db/model/User");
  * @description user service: 获取用户信息
  *
  */
-const {formatUser} = require("./_format");
+const {formatUser} = require("../utils/data_format");
 
 async function getUserInfos(userName, password) {
     //查询条件
-    let whereOpt = {
-        userName
+    let whereOpt = {};
+    if(userName) {
+        Object.assign(whereOpt, {userName});
     }
     if(password) {
         Object.assign(whereOpt, {password});
@@ -42,7 +43,7 @@ async function createUser({userName, password, nickName, gender = 3}) {
         password,
         nickName: nickName ? nickName : userName,
         gender
-    })
+    });
     return result.dataValues;
 }
 

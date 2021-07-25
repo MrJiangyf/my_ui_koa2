@@ -5,7 +5,7 @@ const {createBlog, getAllEnums} = require("../service/blog");
 const {SuccessModel, ErrorModel} = require("../model/ResModel");
 const xss = require("xss");
 /**
- * 创建微博
+ * 创建博客
  * @param content
  * @param image
  * @param userId
@@ -13,7 +13,7 @@ const xss = require("xss");
  */
 async function create({content, image, userId, title, type}) {
          try {
-             // 创建微博
+             // 创建博客
              const blog = await createBlog({
                  content: xss(content),
                  image,

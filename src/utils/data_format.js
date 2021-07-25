@@ -1,10 +1,9 @@
 /**
- * @description 数据格式化
- * @author 双越老师
+ * @description 数据库获取到的数据进行格式化处理，处理成符合条件的格式数据
  */
 
-const { DEFAULT_PICTRUE, REG_FOR_AT_WHO } = require('../conf/constant')
-const { timeFormat } = require('../utils/dt')
+const { DEFAULT_PICTRUE, REG_FOR_AT_WHO } = require('../conf/constant');
+const { timeFormat } = require('./dt');
 
 /**
  * 用户默认头像
@@ -46,8 +45,8 @@ function _formatDBTime(obj) {
 }
 
 /**
- * 格式化微博内容
- * @param {Object} obj 微博数据对象
+ * 格式化博客内容
+ * @param {Object} obj 博客数据对象
  */
 function _formatContent(obj) {
     obj.contentFormat = obj.content
@@ -66,8 +65,8 @@ function _formatContent(obj) {
 }
 
 /**
- * 格式化微博信息
- * @param {Array|Object} list 微博列表或者单个微博对象
+ * 格式化博客信息
+ * @param {Array|Object} list 博客列表或者单个博客对象
  */
 function formatBlog(list) {
     if (list == null) {

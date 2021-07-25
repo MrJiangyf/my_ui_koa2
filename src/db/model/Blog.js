@@ -1,5 +1,5 @@
 /**
- * @description 微博数据模型
+ * @description 博客数据模型
  */
 
 const seq = require("../seq");
