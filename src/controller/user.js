@@ -42,14 +42,13 @@ async function register({userName, password, gender}) {
     if(userInfo) {
         return new ErrorModel(registerUserNameExistInfo);
     }
-
     //注册 service
     try {
         let result = createUser({
             userName,
             password: doCrypto(password),
             gender
-        })
+        });
         return new SuccessModel({
             msg: "注册成功",
             data: ""
@@ -76,7 +75,6 @@ async function login(ctx, userName, password) {
         if (ctx.session.userInfo == null) {
             ctx.session.userInfo = userInfo;
         }
-
         return new SuccessModel({
             msg: "登陆成功",
             data: ""
@@ -122,34 +120,32 @@ async function getUserInfo(userName) {
         })
     }
 }
-
 /**
  * 修改用户信息
  * @param ctx
  * @param nickName
- * @param city
  * @param picture
  * @returns {Promise<void>}
  */
-async function changeInfo(ctx, {nickName, city, picture}) {
+async function changeInfo(ctx, {nickName, picture, gender}) {
     const { userName } = ctx.session.userInfo;
 
     const result = await updateUser(
         {
             newNickName: nickName,
-            newCity: city,
             newPicture: picture,
+            newGender: gender
         }, {
             userName
-        })
+        });
 
     if(result) {
         //修改用户信息成功，要同时更新session中userInfo
         Object.assign(ctx.session.userInfo, {
             nickName,
-            city,
-            picture
-        })
+            picture,
+            gender
+        });
         return new SuccessModel({
             msg: "修改用户信息成功",
             data: ""

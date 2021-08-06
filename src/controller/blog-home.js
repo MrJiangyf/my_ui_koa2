@@ -1,10 +1,10 @@
 /**
  * @description 首页
  */
-const {createBlog, getAllEnums} = require("../service/blog");
-const {SuccessModel, ErrorModel} = require("../model/ResModel");
+const { createBlog } = require("../service/blog");
+const { SuccessModel, ErrorModel } = require("../model/ResModel");
 const xss = require("xss");
-const {getEmusErrorInfo, createBlogFailInfo} = require("../model/ErrorInfos");
+const { createBlogFailInfo } = require("../model/ErrorInfos");
 /**
  * 创建博客
  * @param content
@@ -32,20 +32,7 @@ async function create({content, image, userId, title, type}) {
          }
 }
 
-async function getEnums() {
-    const result = await getAllEnums();
-    if(result) {
-        return new SuccessModel({
-            data: result,
-            msg: "获取枚举列表成功"
-        });
-    }else {
-        return new ErrorModel(getEmusErrorInfo);
-    }
-}
-
 
 module.exports = {
     create,
-    getEnums,
-}
+};

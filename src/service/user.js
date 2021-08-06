@@ -20,24 +20,20 @@ async function getUserInfos(userName, password) {
     if(password) {
         Object.assign(whereOpt, {password});
     }
-
     //查询
     const result = await User.findOne({
-        attributes: ["id", "userName", "nickName", "picture", "city"],
+        attributes: ["id", "userName", "nickName", "picture", "gender"],
         where: whereOpt
     });
-
     if(!result) {
         return  result;
     }
-
     //格式化处理
     const formatRes = formatUser(result.dataValues);
-
     return formatRes;
 }
 
-async function createUser({userName, password, nickName, gender = 3}) {
+async function createUser({userName, password, nickName, gender}) {
     const result = await User.create({
         userName,
         password,
@@ -52,7 +48,7 @@ async function deleteUser(userName) {
         where: {
             userName
         }
-    })
+    });
     // result:删除的行数
     return result > 0;
 }
@@ -62,7 +58,7 @@ async function deleteUser(userName) {
  * @param param0 要修改的内容
  * @param param1 查询要修改信息的用户
  */
-async function updateUser({newPassword, newNickName, newPicture, newCity}, {userName, password}) {
+async function updateUser({newPassword, newNickName, newPicture, newGender}, {userName, password}) {
     // 拼接要修改的用户信息
     let updateData = {};
     if(newPassword) {
@@ -74,18 +70,16 @@ async function updateUser({newPassword, newNickName, newPicture, newCity}, {user
     if(newPicture) {
         updateData.picture = newPicture;
     }
-    if(newCity) {
-        updateData.city = newCity;
+    if(newGender) {
+        updateData.gender = newGender;
     }
-
     // 拼接查询条件
     let whereData = {
         userName
-    }
+    };
     if(password) {
         whereData.password = password;
     }
-
     const result = await User.update(updateData, {
         where: whereData
     });

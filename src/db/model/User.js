@@ -12,31 +12,31 @@ const User = seq.define("user", {
         unique: true,
         comment: '用户名，唯一'
     },
-    nickName: {
-        type: STRING,
-        allowNull: false,
-        comment: '用户名，唯一'
-    },
-
     password: {
         type: STRING,
         allowNull: false,
-        comment: "昵称"
+        comment: "密码"
+    },
+    userType: {
+        type: STRING,
+        allowNull: false,
+        comment: '用户身份'
     },
     gender: {
-        type: DECIMAL,
+        type: STRING,
         allowNull: false,
-        defaultValue: 3,
-        comment: "性别：男（1），女（2），保密（3）"
+        defaultValue: "01",
+        comment: "性别：男（01），女（02），保密（03）"
+    },
+    nickName: {
+        type: STRING,
+        allowNull: false,
+        comment: '昵称，唯一'
     },
     picture: {
         type: STRING,
         comment: "头像， 图片地址"
     },
-    city: {
-        type: STRING,
-        comment: "城市"
-    }
 },);
 
 module.exports = {

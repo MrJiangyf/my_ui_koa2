@@ -18,7 +18,6 @@ const {isTest} = require("../../utils/env");
  */
 router.post("/isExist", async (ctx, next) => {
     const {userName} = ctx.request.body;
-
     let result = await isExist(userName);
     ctx.body = result;
 });
@@ -27,8 +26,8 @@ router.post("/isExist", async (ctx, next) => {
  * 注册
  */
 router.post("/register", genValidator(userValidate) ,async (ctx, next) => {
-    const {userName, gender, password} = ctx.request.body;
-    let result = await register({userName, gender, password});
+    const {userName, password, gender} = ctx.request.body;
+    let result = await register({userName, password, gender});
     ctx.body = result;
 });
 
@@ -65,8 +64,8 @@ router.get("/getUserInfo", loginCheck, genValidator(userValidate), async (ctx) =
  * 编辑用户信息
  */
 router.patch("/changeInfo", loginCheck, genValidator(userValidate), async (ctx) => {
-    const { nickName, city, picture } = ctx.request.body;
-    ctx.body = await changeInfo(ctx, { nickName, city, picture })
+    const { nickName, picture } = ctx.request.body;
+    ctx.body = await changeInfo(ctx, { nickName, picture })
 });
 
 router.post("/changePassword", loginCheck, genValidator(userValidate), async (ctx) => {

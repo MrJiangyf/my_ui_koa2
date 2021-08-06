@@ -3,9 +3,22 @@
  */
 
 const seq = require("../seq");
-const { INTEGER, STRING, TEXT } = require("../types");
-
-const Enums = seq.define("enums", {
+const { STRING, TEXT } = require("../types");
+// 标签枚举
+const LabelEnums = seq.define("labelEnums", {
+    code: {
+        type: STRING,
+        allowNull: false,
+        comment: "枚举值"
+    },
+    label: {
+        type: TEXT,
+        allowNull: false,
+        comment: "枚举名"
+    },
+});
+// 分类专栏枚举
+const TypeEnums = seq.define("typeEnums", {
     code: {
         type: STRING,
         allowNull: false,
@@ -19,5 +32,6 @@ const Enums = seq.define("enums", {
 });
 
 module.exports = {
-    Enums
-}
+    LabelEnums,
+    TypeEnums
+};

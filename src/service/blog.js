@@ -1,8 +1,9 @@
 /**
  * @description 博客
  */
-const {Blog, User, Enums} = require("../db/model/index");
+const {Blog, User} = require("../db/model/index");
 const {formatUser, formatBlog} = require("../utils/data_format");
+
 async function createBlog({content, image, userId, title, type}) {
      const result = await Blog.create({
          userId,
@@ -51,18 +52,7 @@ async function getBlogListByUser({userName, pageIndex = 0, pageSize = 10}) {
     }
 }
 
-async function getAllEnums() {
-    // 根据用户id查询博客列表
-    let enumList = await Enums.findAndCountAll();
-    enumList =  enumList.rows.map(item => {
-        return item.dataValues;
-    });
-
-    return enumList;
-}
-
 module.exports = {
     createBlog,
     getBlogListByUser,
-    getAllEnums
 }

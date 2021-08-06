@@ -14,7 +14,8 @@ const userViewRouter = require("./routes/view/user");
 // 接口路由
 const userApiRouter = require("./routes/api/user");
 const untilsApiRouter = require("./routes/api/utils");
-const blogHomeApiRouter = require("./routes/api/blog_home");
+const enumsApiRouter = require("./routes/api/enums");
+const blogHomeApiRouter = require("./routes/api/blog-home");
 const blogProfileApiRouter = require("./routes/api/blog-profile");
 // redis
 const session = require('koa-generic-session');
@@ -97,6 +98,7 @@ app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
 // 接口路由
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods());
 app.use(untilsApiRouter.routes(), untilsApiRouter.allowedMethods());
+app.use(enumsApiRouter.routes(), enumsApiRouter.allowedMethods());
 app.use(blogHomeApiRouter.routes(), blogHomeApiRouter.allowedMethods());
 app.use(blogProfileApiRouter.routes(), blogProfileApiRouter.allowedMethods());
 /**
