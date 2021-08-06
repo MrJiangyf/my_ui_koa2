@@ -11,14 +11,14 @@ const { ErrorModel } = require('../model/ResModel')
 function genValidator(validateFn) {
     // 定义中间件函数
     async function validator(ctx, next) {
-        const data = ctx.request.body
-        const error = validateFn(data)
+        const data = ctx.request.body;
+        const error = validateFn(data);
         if (error) {
             // 验证失败
             ctx.body = new ErrorModel({
                 msg: error.dataPath + "：" + error.message,
                 code: 500
-            })
+            });
             return
         }
         // 验证成功，继续

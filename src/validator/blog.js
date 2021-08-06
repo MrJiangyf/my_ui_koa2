@@ -9,11 +9,16 @@ const validate = require('./_validate')
 const SCHEMA = {
     type: 'object',
     properties: {
-       content: {
-           type: "string"
-       },
+        title: {
+            type: "string",
+            maxLength: 255
+        },
+        lookNums: {
+            type: "number",
+            maxLength: 9999
+        },
         image: {
-           type: "string",
+            type: "string",
             maxLength: 255
         }
     }

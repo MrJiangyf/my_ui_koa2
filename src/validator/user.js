@@ -15,6 +15,10 @@ const SCHEMA = {
             maxLength: 255,
             minLength: 2
         },
+        nickName: {
+            type: 'string',
+            maxLength: 255
+        },
         password: {
             type: 'string',
             maxLength: 255,
@@ -25,7 +29,7 @@ const SCHEMA = {
             maxLength: 255,
             minLength: 3
         },
-        nickName: {
+        userType: {
             type: 'string',
             maxLength: 255
         },
@@ -33,18 +37,12 @@ const SCHEMA = {
             type: 'string',
             maxLength: 255
         },
-        city: {
-            type: 'string',
-            maxLength: 255,
-            minLength: 2
-        },
         gender: {
-            type: 'number',
-            minimum: 1,
-            maximum: 3
+            type: 'string',
+            maxLength: 255
         }
     }
-}
+};
 
 /**
  * 校验用户数据格式

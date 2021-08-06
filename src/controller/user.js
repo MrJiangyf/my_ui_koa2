@@ -47,12 +47,16 @@ async function register({userName, password, gender}) {
         let result = createUser({
             userName,
             password: doCrypto(password),
-            gender
+            gender,
         });
-        return new SuccessModel({
-            msg: "注册成功",
-            data: ""
-        })
+        if(result) {
+            return new SuccessModel({
+                msg: "注册成功",
+                data: ""
+            })
+        }else {
+            return  new ErrorModel(registerFailInfo);
+        }
     } catch (e) {
         return  new ErrorModel(registerFailInfo);
     }

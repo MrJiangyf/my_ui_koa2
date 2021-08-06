@@ -31,7 +31,7 @@ module.exports = {
     // 修改密码失败
     changePasswordFailInfo: {
         code: 10006,
-        msg: '修改密码失败，请重试'
+        msg: '修改失败，请重新输入旧密码'
     },
     // 上传文件过大
     uploadFileSizeFailInfo: {

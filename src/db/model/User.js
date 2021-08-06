@@ -19,7 +19,6 @@ const User = seq.define("user", {
     },
     userType: {
         type: STRING,
-        allowNull: false,
         comment: '用户身份'
     },
     gender: {
