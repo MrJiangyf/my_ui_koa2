@@ -63,9 +63,9 @@ router.get("/getUserInfo", loginCheck, genValidator(userValidate), async (ctx) =
 /**
  * 编辑用户信息
  */
-router.patch("/changeInfo", loginCheck, genValidator(userValidate), async (ctx) => {
-    const { nickName, picture } = ctx.request.body;
-    ctx.body = await changeInfo(ctx, { nickName, picture })
+router.post("/changeInfo", loginCheck, genValidator(userValidate), async (ctx) => {
+    const { nickName, picture, gender } = ctx.request.body;
+    ctx.body = await changeInfo(ctx, { nickName, picture, gender })
 });
 
 router.post("/changePassword", loginCheck, genValidator(userValidate), async (ctx) => {
