@@ -17,10 +17,6 @@ const SCHEMA = {
             type: "number",
             maxLength: 9999
         },
-        image: {
-            type: "string",
-            maxLength: 255
-        }
     }
 }
 

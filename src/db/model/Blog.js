@@ -16,29 +16,18 @@ const Blog = seq.define("blog", {
         allowNull: false,
         comment: "博客标题"
     },
-    path: {
-        type: STRING,
-        comment: "博客存放地址"
+    content: {
+        type: TEXT,
+        comment: "博客内容"
     },
     type: {
         type: STRING,
         allowNull: false,
-        comment: "博客类型"
-    },
-    typeName: {
-        type: STRING,
-        allowNull: false,
-        comment: "博客类型名称"
+        comment: "博客分类栏"
     },
     labels: {
         type: STRING,
-        allowNull: false,
         comment: "博客标签"
-    },
-    labelNames: {
-        type: STRING,
-        allowNull: false,
-        comment: "博客标题标签名称"
     },
     auth: {
         type: STRING,
@@ -47,7 +36,6 @@ const Blog = seq.define("blog", {
     },
     lookNums: {
         type: INTEGER,
-        allowNull: false,
         comment: "查看次数"
     }
 });

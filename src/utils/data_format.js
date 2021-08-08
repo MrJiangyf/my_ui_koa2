@@ -78,9 +78,9 @@ function formatBlog(list) {
         return list.map(_formatDBTime).map(_formatContent)
     }
     // 对象
-    let result = list
-    result = _formatDBTime(result)
-    result = _formatContent(result)
+    let result = list;
+    result = _formatDBTime(result);
+    result = _formatContent(result);
     return result
 }
 

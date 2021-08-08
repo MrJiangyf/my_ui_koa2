@@ -4,55 +4,62 @@
 const {Blog, User} = require("../db/model/index");
 const {formatUser, formatBlog} = require("../utils/data_format");
 
-async function createBlog({content, image, userId, title, type}) {
+async function createBlog({userId, content, title, type, labels, auth}) {
      const result = await Blog.create({
          userId,
          content,
-         image,
+         title,
          type,
-         title
+         labels,
+         auth
      });
     return result.dataValues;
 }
 
-async function getBlogListByUser({userName, pageIndex = 0, pageSize = 10}) {
+async function filterBlogList({blogId, type, userId, pageIndex = 0, pageSize = 10}) {
     // 拼接查询条件
     let query = {};
-    if(userName) {
-        query.userName = userName;
+    let blogTributes = ["id", "userId", "title", "content", "type", "labels", "auth", "lookNums", "createdAt", "updatedAt"];
+    if(userId) {
+        query.userId = userId;
     }
-    // 根据用户名查询用户信息
-    let userInfos = await User.findOne({
-        where: query,
-        attributes: ["userName", "nickName", "picture", "id"],
-    });
-    // 根据用户id查询博客列表
+    if(type) {
+        query.type = type;
+        blogTributes = ["id", "userId", "title", "type", "labels", "auth", "lookNums", "createdAt", "updatedAt"];
+    }
+    if(blogId) {
+        query.id = parseInt(blogId);
+    }
+    // 根据传入条件查询博客列表
     let blogList = await Blog.findAndCountAll({
         limit: pageSize,
         offset: pageIndex,
-        order: [["id", "desc"]],
-        where: {
-            userId: userInfos.dataValues.id
-        }
+        order: [["createdAt", "desc"]],
+        where: query,
+        attributes: blogTributes
     });
-    //获取博客列表
     blogList = blogList.rows.map(item => {
         return item.dataValues;
     });
-    //格式化博客列表数据：时间，内容
-    blogList = formatBlog(blogList);
-    //格式化人员信息：默认头像
-    blogList = blogList.map(item => {
-        item.user = formatUser(userInfos.dataValues);
-        return item;
-    });
+    // 添加用户人员信息
+    for(let i=0;i<blogList.length;i++) {
+        let item = blogList[i];
+        // 根据用户ID查询用户信息
+        let userInfos = await User.findOne({
+            where: {
+                id: item.userId
+            },
+            attributes: ["userName", "nickName", "picture", "id", "gender"],
+        });
+        item.userInfos = userInfos.dataValues;
+    }
     return {
         blogList,
-        count: blogList.count
+        count: blogList.count || 0
     }
 }
 
 module.exports = {
     createBlog,
-    getBlogListByUser,
+    filterBlogList,
 }

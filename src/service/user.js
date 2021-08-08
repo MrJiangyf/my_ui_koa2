@@ -29,7 +29,7 @@ async function getUserInfos(userName, password) {
         return  result;
     }
     //格式化处理
-    const formatRes = formatUser(result.dataValues);
+    const formatRes = result.dataValues;
     return formatRes;
 }
 
@@ -38,7 +38,8 @@ async function createUser({userName, password, nickName, gender}) {
         userName,
         password,
         nickName: nickName ? nickName : userName,
-        gender
+        gender,
+        picture: ""
     });
     return result.dataValues;
 }
