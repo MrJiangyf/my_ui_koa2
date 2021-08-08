@@ -63,6 +63,11 @@ module.exports = {
         code: 11001,
         msg: '创建博客失败，请重试'
     },
+    // 编辑博客失败
+    editBlogFailInfo: {
+        code: 11001,
+        msg: '编辑博客失败，请重试'
+    },
     // 获取博客信息失败
     getBlogFailInfo: {
         code: 1101,

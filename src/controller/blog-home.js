@@ -1,18 +1,14 @@
 /**
  * @description 首页
  */
-const { createBlog } = require("../service/blog");
+const { createBlog, editBlogInfos, deleteBlogInfos } = require("../service/blog");
 const { SuccessModel, ErrorModel } = require("../model/ResModel");
 const xss = require("xss");
-const { createBlogFailInfo, getBlogFailInfo } = require("../model/ErrorInfos");
+const { createBlogFailInfo, getBlogFailInfo, editBlogFailInfo} = require("../model/ErrorInfos");
 const {filterBlogList} = require("../service/blog");
 const { getTypeEnums } = require("../service/enums.js");
 /**
  * 创建博客
- * @param content
- * @param image
- * @param userId
- * @returns {Promise<void>}
  */
 async function create({userId, content, title, type, labels, auth}) {
          try {
@@ -30,11 +26,56 @@ async function create({userId, content, title, type, labels, auth}) {
                  msg: "创建成功"
              });
          }catch (e) {
-             console.error(e.message, e.stack);
              return new ErrorModel(createBlogFailInfo);
          }
 }
+/**
+ * 编辑博客
+ */
+async function editBlog({blogId, content, title, type, labels, auth}) {
+    try {
+        // 编辑博客
+        const result = await editBlogInfos({
+            content: xss(content),
+            blogId,
+            title,
+            type,
+            labels,
+            auth
+        });
+        if(result) {
+            return new SuccessModel({
+                data: result,
+                msg: "成功编辑文章!"
+            });
+        }else {
+            return new ErrorModel(editBlogFailInfo);
+        }
+    }catch (e) {
+        return new ErrorModel(editBlogFailInfo);
+    }
+}
+/**
+ * 删除文章
+ */
+async function deleteBlog(blogId) {
+    const result = await deleteBlogInfos(blogId);
+    if(result) {
+        return new SuccessModel({
+            data: "",
+            msg: '删除成功',
+        })
 
+        return new ErrorModel({
+            data: "",
+            msg: "删除失败"
+        })
+    }
+}
+
+/**
+ * 获取博客列表
+ */
 async function getBlogList({blogId, userId, type, pageIndex = 1, pageSize = 10}) {
     const result = await filterBlogList({
         blogId,
@@ -56,6 +97,9 @@ async function getBlogList({blogId, userId, type, pageIndex = 1, pageSize = 10})
         return new ErrorModel(getBlogFailInfo);
     }
 }
+/**
+ * 获取菜单列表
+ */
 async function getBlogMenuList({ctx, userId, pageIndex = 1, pageSize = 10}) {
     const typeEnums = await getTypeEnums();
     let lastResult = [];
@@ -93,6 +137,8 @@ async function getBlogMenuList({ctx, userId, pageIndex = 1, pageSize = 10}) {
 
 module.exports = {
     create,
+    editBlog,
+    deleteBlog,
     getBlogList,
     getBlogMenuList
 };

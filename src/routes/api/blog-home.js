@@ -4,7 +4,7 @@
 const {loginCheck} = require("../../middlewares/loginChecks");
 const router = require('koa-router')();
 router.prefix("/api/blog");
-const {create, getBlogList, getBlogMenuList} = require("../../controller/blog-home");
+const {create, getBlogList, getBlogMenuList, editBlog, deleteBlog} = require("../../controller/blog-home");
 const {genValidator} = require("../../middlewares/validator");
 const blogValidate = require("../../validator/blog");
 /**
@@ -16,7 +16,20 @@ router.post("/create", loginCheck, genValidator(blogValidate), async (ctx, next)
     const  userId = id;
     ctx.body = await create({userId, content, title, type, labels, auth});
 });
-
+/**
+ * 编辑博客内容接口
+ * */
+router.post("/editBlog", loginCheck, genValidator(blogValidate), async (ctx, next) => {
+    const {blogId, content, title, type, labels, auth}  = ctx.request.body;
+    ctx.body = await editBlog({blogId, content, title, type, labels, auth});
+});
+/**
+ * 删除博客内容接口
+ * */
+router.post("/deleteBlog", async (ctx, next) => {
+    const {blogId}  = ctx.request.body;
+    ctx.body = await deleteBlog(blogId);
+});
 /**
  * 获取博客信息
  * */

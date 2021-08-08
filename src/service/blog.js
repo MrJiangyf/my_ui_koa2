@@ -3,7 +3,9 @@
  */
 const {Blog, User} = require("../db/model/index");
 const {formatUser, formatBlog} = require("../utils/data_format");
-
+/**
+ * 创建博客
+ */
 async function createBlog({userId, content, title, type, labels, auth}) {
      const result = await Blog.create({
          userId,
@@ -15,7 +17,48 @@ async function createBlog({userId, content, title, type, labels, auth}) {
      });
     return result.dataValues;
 }
+/**
+ * 编辑博客内容
+ */
+async function editBlogInfos({blogId, content, title, type, labels, auth}) {
+    // 拼接要修改的用户信息
+    let updateData = {};
+    if(content) {
+        updateData.content = content;
+    }
+    if(title) {
+        updateData.title = title;
+    }
+    if(type) {
+        updateData.type = type;
+    }
+    if(labels) {
+        updateData.labels = labels;
+    }
+    if(auth) {
+        updateData.auth = auth;
+    }
+    const result = await Blog.update(updateData, {
+        where: {
+            id: blogId
+        }
+    });
+    let boolean = result[0] > 0;
+    return boolean //修改行数
+}
 
+async function deleteBlogInfos(blogId) {
+    const result = await Blog.destroy({
+        where: {
+            id: blogId
+        }
+    });
+    // result:删除的行数
+    return result > 0;
+}
+/**
+ * 根据指定条件过滤文章
+ */
 async function filterBlogList({blogId, type, userId, pageIndex = 0, pageSize = 10}) {
     // 拼接查询条件
     let query = {};
@@ -61,5 +104,7 @@ async function filterBlogList({blogId, type, userId, pageIndex = 0, pageSize = 1
 
 module.exports = {
     createBlog,
+    editBlogInfos,
+    deleteBlogInfos,
     filterBlogList,
 }
