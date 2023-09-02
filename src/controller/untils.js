@@ -31,7 +31,7 @@ async function saveUserPhoto({ctx, name, type, size, filePath}) {
 
     // 返回信息（在app.js中配置uploadFiles目录为静态资源目录，这样就可以通过："/文件名"访问到文件）
     return new SuccessModel({
-        data: {url: `http://localhost:8888/user_photos/userId_${userId}/` + fileName},
+        data: {url: `/user_photos/userId_${userId}/` + fileName},
         msg: "上传成功"
     });
 }
@@ -62,7 +62,7 @@ async function saveArticleImg({ctx, name, type, size, filePath}) {
     await fse.move(filePath, distFilePath);
     // 返回信息（在app.js中配置uploadFiles目录为静态资源目录，这样就可以通过："/文件名"访问到文件）
     return new SuccessModel({
-        data: {url: `http://localhost:8888/article_imgs/userId_${userId}/` + fileName},
+        data: {url: `http://baseArticleImgPath/article_imgs/userId_${userId}/` + fileName},
         msg: "上传成功"
     });
 }

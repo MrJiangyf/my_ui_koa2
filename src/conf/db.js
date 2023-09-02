@@ -7,13 +7,14 @@
 
 let REDIS_CONF = {
     port: 6379,
-    host: "47.100.69.250"
+    host: "121.40.223.28",
+    password: "jiangyf@877253"
 }
 
 let MYSQL_CONF = {
-    host: "47.100.69.250",
+    host: "121.40.223.28",
     user: "jiangyf",
-    password: "123456",
+    password: "jiangyf@877253",
     port: "3306",
     database: "koa2_weibo_db"
 }
