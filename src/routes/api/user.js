@@ -5,7 +5,7 @@ const { loginCheck } = require("../../middlewares/loginChecks");
 const router = require('koa-router')();
 router.prefix("/api/user");
 
-const { isExist, register, login, deleteCurUser, changeInfo, changePassword, logout, getUserInfo } = require("../../controller/user");
+const { isExist, register, wxLogin, login, deleteCurUser, changeInfo, changePassword, logout, getUserInfo } = require("../../controller/user");
 
 //利用：json shema 对注册的信息进行校验
 const { genValidator } = require("../../middlewares/validator");
@@ -32,11 +32,20 @@ router.post("/register", genValidator(userValidate), async (ctx, next) => {
 });
 
 /**
- * 登陆
+ * web端登陆
  */
 router.post("/login", async (ctx, next) => {
     const { userName, password } = ctx.request.body;
     let result = await login(ctx, userName, password);
+    ctx.body = result;
+});
+
+/**
+ * 微信小程序一键登陆
+ */
+router.post("/wxLogin", async (ctx, next) => {
+    const { code, userInfo } = ctx.request.body;
+    let result = await wxLogin(ctx, code, userInfo);
     ctx.body = result;
 });
 

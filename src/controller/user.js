@@ -1,11 +1,14 @@
 /**
  * @description user controller：1.处理业务逻辑，2.调用service处理好的数据，3.返回格式统一化
  */
-
+// 引入request-promise模块
+const rp = require('request-promise');
+const jwt = require('jsonwebtoken');
 const { getUserInfos, createUser, deleteUser, updateUser } = require("../service/user");
 const { SuccessModel, ErrorModel } = require("../model/ResModel");
 const { doCrypto } = require("../utils/cryp");
 const { set } = require("../db/redis");
+const { SESSION_SECRET_KEY } = require("../conf/secretKeys");
 
 const { registerUserNameExistInfo, registerFailInfo, loginFailInfo, changePasswordFailInfo,
     getUserInfoFailInfo, changeInfoFailInfo } = require("../model/ErrorInfos");
@@ -87,6 +90,60 @@ async function login(ctx, userName, password) {
         })
     } else {
         return new ErrorModel(loginFailInfo);
+    }
+}
+
+/**
+ * 微信小程序登陆
+ * @param userName
+ * @param password
+ * @returns {Promise<ErrorModel|SuccessModel>}
+ */
+// 解密微信用户数据
+const decodeUserInfo = (encryptedData, iv, sessionKey) => {
+    // 以下代码来源于微信开发文档
+    const crypto = require('crypto');
+    const decipher = crypto.createDecipheriv('aes-128-cbc', sessionKey, iv);
+    let decoded = decipher.update(encryptedData, 'base64', 'utf8');
+    decoded += decipher.final('utf8');
+    decoded = JSON.parse(decoded);
+    return decoded;
+};
+async function wxLogin(ctx, code, userInfo) {
+    // 调用微信API，使用Code获取SessionKey和OpenId
+    const appid = 'wx754b21cee0ad6ddb';  // 请填写自己的appid
+    const secret = '86765afd91a6db12a084257cd961c7b0';  // 请填写自己的secret
+    const grant_type = 'authorization_code';
+    const options = {
+        uri: 'https://api.weixin.qq.com/sns/jscode2session',
+        qs: {
+            appid,
+            secret,
+            js_code: code,
+            grant_type
+        },
+        json: true
+    };
+    const { session_key, openid } = await rp(options) || {};
+    if (session_key && openid) {
+        // 将用户信息、openid、session_key 转成 token 返回前端，方便在拦截校验中间层获取用户信息
+        const user = {
+            openid: openid,
+            sessionKey: session_key,
+            ...userInfo,
+        };
+        const tokenId = jwt.sign(user, SESSION_SECRET_KEY, { expiresIn: '1h' }); // 设置Token的过期时间
+        return new SuccessModel({
+            data: {
+                tokenId: tokenId
+            },
+            msg: "登陆成功"
+        })
+    } else {
+        return new ErrorModel({
+            msg: "授权失败",
+            data: {}
+        });
     }
 }
 
@@ -193,6 +250,7 @@ module.exports = {
     isExist,
     register,
     login,
+    wxLogin,
     deleteCurUser,
     changeInfo,
     changePassword,
