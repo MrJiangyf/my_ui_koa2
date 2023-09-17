@@ -5,7 +5,7 @@
 const { ErrorModel } = require('../model/ResModel');
 const { SESSION_SECRET_KEY } = require("../conf/secretKeys");
 const jwt = require('jsonwebtoken');
-
+const { getUserInfos } = require("../service/user");
 /**
  * API 登录验证
  * @param {Object} ctx ctx
@@ -26,7 +26,8 @@ async function loginCheck(ctx, next) {
                     code: 200,
                 }
             } else {
-                ctx.session.userInfo = decoded;
+                const userInfo = await getUserInfos(decoded.userNmae)
+                ctx.session.userInfo = userInfo;
                 return {
                     msg: "Token验证成功",
                     code: 200

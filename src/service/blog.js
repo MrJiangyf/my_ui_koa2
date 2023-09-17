@@ -1,41 +1,41 @@
 /**
  * @description 博客
  */
-const {Blog, User} = require("../db/model/index");
-const {formatUser, formatBlog} = require("../utils/data_format");
+const { Blog, User } = require("../db/model/index");
+const { formatUser, formatBlog } = require("../utils/data_format");
 /**
  * 创建博客
  */
-async function createBlog({userId, content, title, type, labels, auth}) {
-     const result = await Blog.create({
-         userId,
-         content,
-         title,
-         type,
-         labels,
-         auth
-     });
+async function createBlog({ userId, content, title, type, labels, auth }) {
+    const result = await Blog.create({
+        userId,
+        content,
+        title,
+        type,
+        labels,
+        auth
+    });
     return result.dataValues;
 }
 /**
  * 编辑博客内容
  */
-async function editBlogInfos({blogId, content, title, type, labels, auth}) {
+async function editBlogInfos({ blogId, content, title, type, labels, auth }) {
     // 拼接要修改的用户信息
     let updateData = {};
-    if(content) {
+    if (content) {
         updateData.content = content;
     }
-    if(title) {
+    if (title) {
         updateData.title = title;
     }
-    if(type) {
+    if (type) {
         updateData.type = type;
     }
-    if(labels) {
+    if (labels) {
         updateData.labels = labels;
     }
-    if(auth) {
+    if (auth) {
         updateData.auth = auth;
     }
     const result = await Blog.update(updateData, {
@@ -59,18 +59,18 @@ async function deleteBlogInfos(blogId) {
 /**
  * 根据指定条件过滤文章
  */
-async function filterBlogList({blogId, type, userId, pageIndex = 0, pageSize = 10}) {
+async function filterBlogList({ blogId, type, userId, pageIndex = 0, pageSize = 10 }) {
     // 拼接查询条件
     let query = {};
     let blogTributes = ["id", "userId", "title", "content", "type", "labels", "auth", "lookNums", "createdAt", "updatedAt"];
-    if(userId) {
+    if (userId) {
         query.userId = userId;
     }
-    if(type) {
+    if (type) {
         query.type = type;
-        blogTributes = ["id", "userId", "title", "type", "labels", "auth", "lookNums", "createdAt", "updatedAt"];
+        blogTributes = ["id", "userId", "title", "type", "labels", "auth", "content", "lookNums", "createdAt", "updatedAt"];
     }
-    if(blogId) {
+    if (blogId) {
         query.id = parseInt(blogId);
     }
     // 根据传入条件查询博客列表
@@ -85,8 +85,12 @@ async function filterBlogList({blogId, type, userId, pageIndex = 0, pageSize = 1
         return item.dataValues;
     });
     // 添加用户人员信息
-    for(let i=0;i<blogList.length;i++) {
+    for (let i = 0; i < blogList.length; i++) {
         let item = blogList[i];
+        // 查询菜单列表内容不用全部返还
+        if (type) {
+            item.content = item.content.slice(0, 100);
+        }
         // 根据用户ID查询用户信息
         let userInfos = await User.findOne({
             where: {

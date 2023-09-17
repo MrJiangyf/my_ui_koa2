@@ -4,35 +4,35 @@
 const { createBlog, editBlogInfos, deleteBlogInfos } = require("../service/blog");
 const { SuccessModel, ErrorModel } = require("../model/ResModel");
 const xss = require("xss");
-const { createBlogFailInfo, getBlogFailInfo, editBlogFailInfo} = require("../model/ErrorInfos");
-const {filterBlogList} = require("../service/blog");
+const { createBlogFailInfo, getBlogFailInfo, editBlogFailInfo } = require("../model/ErrorInfos");
+const { filterBlogList } = require("../service/blog");
 const { getTypeEnums } = require("../service/enums.js");
 /**
  * 创建博客
  */
-async function create({userId, content, title, type, labels, auth}) {
-         try {
-             // 创建博客
-             const blog = await createBlog({
-                 content: xss(content),
-                 userId,
-                 title,
-                 type,
-                 labels,
-                 auth
-             });
-             return new SuccessModel({
-                 data: blog,
-                 msg: "创建成功"
-             });
-         }catch (e) {
-             return new ErrorModel(createBlogFailInfo);
-         }
+async function create({ userId, content, title, type, labels, auth }) {
+    try {
+        // 创建博客
+        const blog = await createBlog({
+            content: xss(content),
+            userId,
+            title,
+            type,
+            labels,
+            auth
+        });
+        return new SuccessModel({
+            data: blog,
+            msg: "创建成功"
+        });
+    } catch (e) {
+        return new ErrorModel(createBlogFailInfo);
+    }
 }
 /**
  * 编辑博客
  */
-async function editBlog({blogId, content, title, type, labels, auth}) {
+async function editBlog({ blogId, content, title, type, labels, auth }) {
     try {
         // 编辑博客
         const result = await editBlogInfos({
@@ -43,15 +43,15 @@ async function editBlog({blogId, content, title, type, labels, auth}) {
             labels,
             auth
         });
-        if(result) {
+        if (result) {
             return new SuccessModel({
                 data: result,
                 msg: "成功编辑文章!"
             });
-        }else {
+        } else {
             return new ErrorModel(editBlogFailInfo);
         }
-    }catch (e) {
+    } catch (e) {
         return new ErrorModel(editBlogFailInfo);
     }
 }
@@ -60,7 +60,7 @@ async function editBlog({blogId, content, title, type, labels, auth}) {
  */
 async function deleteBlog(blogId) {
     const result = await deleteBlogInfos(blogId);
-    if(result) {
+    if (result) {
         return new SuccessModel({
             data: "",
             msg: '删除成功',
@@ -76,7 +76,7 @@ async function deleteBlog(blogId) {
 /**
  * 获取博客列表
  */
-async function getBlogList({blogId, userId, type, pageIndex = 1, pageSize = 10}) {
+async function getBlogList({ blogId, userId, type, pageIndex = 1, pageSize = 10 }) {
     const result = await filterBlogList({
         blogId,
         userId,
@@ -84,7 +84,7 @@ async function getBlogList({blogId, userId, type, pageIndex = 1, pageSize = 10})
         pageIndex,
         pageSize,
     });
-    if(result) {
+    if (result) {
         return new SuccessModel({
             data: {
                 blogList: result.blogList,
@@ -93,18 +93,18 @@ async function getBlogList({blogId, userId, type, pageIndex = 1, pageSize = 10})
             },
             msg: "获取博客列表成功"
         });
-    }else {
+    } else {
         return new ErrorModel(getBlogFailInfo);
     }
 }
 /**
  * 获取菜单列表
  */
-async function getBlogMenuList({ctx, userId, pageIndex = 1, pageSize = 10}) {
+async function getBlogMenuList({ ctx, userId, pageIndex = 1, pageSize = 10 }) {
     const typeEnums = await getTypeEnums();
     let lastResult = [];
     let curUserId = ctx.session.userInfo.id; // 当前用户ID
-    for (let i=0;i<typeEnums.length;i++) {
+    for (let i = 0; i < typeEnums.length; i++) {
         let item = typeEnums[i], type = item.code;
         let result = await filterBlogList({
             pageIndex: pageIndex || 0,
@@ -112,20 +112,20 @@ async function getBlogMenuList({ctx, userId, pageIndex = 1, pageSize = 10}) {
             userId,
             type
         });
-        if(result) {
+        if (result) {
             let blogList = result.blogList, lastBlogList = [];
             blogList.map(blog => {
                 blog.label = blog.title;
                 // 只有个权限是“open”或者博客是本人的才能放到菜单中
-                if(blog.auth == 'open' || blog.userId == curUserId) {
+                if (blog.auth == 'open' || blog.userId == curUserId) {
                     lastBlogList.push(blog);
                 }
             });
             item.children = lastBlogList;
-            if(lastBlogList && lastBlogList.length > 0) {
+            if (lastBlogList && lastBlogList.length > 0) {
                 lastResult.push(item);
             }
-        }else {
+        } else {
             return new ErrorModel(getBlogFailInfo);
         }
     }
@@ -135,10 +135,41 @@ async function getBlogMenuList({ctx, userId, pageIndex = 1, pageSize = 10}) {
     });
 }
 
+/**
+ * 根据菜单code获取菜单列表数据
+ * */
+async function getMenuByCode({ ctx, code, userId, pageIndex = 1, pageSize = 10 }) {
+    let curUserId = ctx.session.userInfo.id; // 当前用户ID
+    let result = await filterBlogList({
+        pageIndex: pageIndex || 0,
+        pageSize: pageSize || 10000,
+        userId,
+        type: code
+    });
+    const lastBlogList = [];
+    if (result) {
+        const blogList = result.blogList;
+        blogList.map(blog => {
+            blog.label = blog.title;
+            // 只有个权限是“open”或者博客是本人的才能放到菜单中
+            if (blog.auth == 'open' || blog.userId == curUserId) {
+                lastBlogList.push(blog);
+            }
+        });
+    } else {
+        return new ErrorModel(getBlogFailInfo);
+    }
+    return new SuccessModel({
+        data: lastBlogList,
+        msg: "获取博客列表成功"
+    });
+}
+
 module.exports = {
     create,
     editBlog,
     deleteBlog,
     getBlogList,
-    getBlogMenuList
+    getBlogMenuList,
+    getMenuByCode
 };
