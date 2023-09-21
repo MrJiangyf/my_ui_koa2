@@ -1,7 +1,7 @@
 /**
  * @description 首页
  */
-const { createBlog, editBlogInfos, deleteBlogInfos } = require("../service/blog");
+const { createBlog, editBlogInfos, deleteBlogInfos, updateBlogRecoord } = require("../service/blog");
 const { SuccessModel, ErrorModel } = require("../model/ResModel");
 const xss = require("xss");
 const { createBlogFailInfo, getBlogFailInfo, editBlogFailInfo } = require("../model/ErrorInfos");
@@ -53,6 +53,23 @@ async function editBlog({ blogId, content, title, type, labels, auth }) {
         }
     } catch (e) {
         return new ErrorModel(editBlogFailInfo);
+    }
+}
+/**
+ * 查看博客记录
+ */
+async function updateLookRecoord(blogId) {
+    const result = await updateBlogRecoord(blogId);
+    if (result) {
+        return new SuccessModel({
+            data: "",
+            msg: '更新成功',
+        })
+
+        return new ErrorModel({
+            data: "",
+            msg: "更新失败"
+        })
     }
 }
 /**
@@ -171,5 +188,6 @@ module.exports = {
     deleteBlog,
     getBlogList,
     getBlogMenuList,
-    getMenuByCode
+    getMenuByCode,
+    updateLookRecoord,
 };

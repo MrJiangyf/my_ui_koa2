@@ -46,7 +46,22 @@ async function editBlogInfos({ blogId, content, title, type, labels, auth }) {
     let boolean = result[0] > 0;
     return boolean //修改行数
 }
-
+// 更新博客查看记录
+async function updateBlogRecoord(blogId) {
+    const blogDetail = await Blog.findOne({
+        where: {
+            id: blogId
+        },
+        attributes: ["lookNums"],
+    });
+    const result = await Blog.update({
+        lookNums: parseInt(blogDetail.dataValues.lookNums || 0) + 1
+    }, {
+        where: { id: blogId }
+    });
+    let boolean = result[0] > 0;
+    return boolean //修改行数
+}
 async function deleteBlogInfos(blogId) {
     const result = await Blog.destroy({
         where: {
@@ -77,7 +92,7 @@ async function filterBlogList({ blogId, type, userId, pageIndex = 0, pageSize = 
     let blogList = await Blog.findAndCountAll({
         limit: pageSize,
         offset: pageIndex,
-        order: [["createdAt", "desc"]],
+        order: [["lookNums", "desc"]],
         where: query,
         attributes: blogTributes
     });
@@ -109,6 +124,7 @@ async function filterBlogList({ blogId, type, userId, pageIndex = 0, pageSize = 
 module.exports = {
     createBlog,
     editBlogInfos,
+    updateBlogRecoord,
     deleteBlogInfos,
     filterBlogList,
 }
