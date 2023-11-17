@@ -1,11 +1,11 @@
-const router = require('koa-router')();
 const koaFrom = require("formidable-upload-koa");
 const { typeEnums, labelEnums } = require("../../controller/enums");
+
+const router = require('koa-router')();
 router.prefix("/api/enums");
 
-
 // 获取博客分类专栏枚举值
-router.get("/getTypeEnums", koaFrom(), async (ctx, next) => {
+router.post("/getTypeEnums", async (ctx, next) => {
     ctx.body = await typeEnums()
 });
 
