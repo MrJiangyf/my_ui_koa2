@@ -1,16 +1,16 @@
 /**
  * @description 首页
  */
-const { loginCheck } = require("../../middlewares/loginChecks");
 const router = require('koa-router')();
 router.prefix("/api/blog");
-const { create, getBlogList, getBlogMenuList, editBlog, deleteBlog, getMenuByCode, updateLookRecoord } = require("../../controller/blog-home");
+const { create, getBlogList, getBlogMenuList, editBlog, deleteBlog, getMenuByCode, updateLookRecoord } = require("../../controller/article-home");
 const { genValidator } = require("../../middlewares/validator");
-const blogValidate = require("../../validator/blog");
+const articleValidate = require("../../validator/article");
+const { loginCheck } = require("../../middlewares/loginChecks");
 /**
  * 新增博客内容接口
  * */
-router.post("/create", loginCheck, genValidator(blogValidate), async (ctx, next) => {
+router.post("/create", loginCheck, genValidator(articleValidate), async (ctx, next) => {
     const { content, title, type, labels, auth } = ctx.request.body;
     const { id } = ctx.session.userInfo;
     const userId = id;
@@ -19,7 +19,7 @@ router.post("/create", loginCheck, genValidator(blogValidate), async (ctx, next)
 /**
  * 编辑博客内容接口
  * */
-router.post("/editBlog", loginCheck, genValidator(blogValidate), async (ctx, next) => {
+router.post("/editBlog", loginCheck, genValidator(articleValidate), async (ctx, next) => {
     const { blogId, content, title, type, labels, auth } = ctx.request.body;
     ctx.body = await editBlog({ blogId, content, title, type, labels, auth });
 });

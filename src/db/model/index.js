@@ -3,13 +3,15 @@
  */
 
 const { User } = require("./User");
-const { Blog } = require("./Blog");
+const { Article } = require("./Article");
+const { Diary } = require("./Diary");
 const { LabelEnums, TypeEnums} = require("./Enums");
 
 
 module.exports = {
     User,
-    Blog,
+    Article,
+    Diary,
     LabelEnums,
     TypeEnums
 }

@@ -58,29 +58,39 @@ module.exports = {
         code: 10011,
         msg: "获取用户基本信息失败"
     },
-    // 创建博客失败
+    // 创建文章失败
     createBlogFailInfo: {
         code: 11001,
-        msg: '创建博客失败，请重试'
+        msg: '创建文章失败，请重试'
     },
-    // 编辑博客失败
+    // 编辑文章失败
     editBlogFailInfo: {
         code: 11001,
-        msg: '编辑博客失败，请重试'
+        msg: '编辑文章失败，请重试'
     },
-    // 获取博客信息失败
+    // 获取文章信息失败
     getBlogFailInfo: {
         code: 1101,
-        msg: '获取博客信息失败，请重试'
+        msg: '获取文章信息失败，请重试'
     },
-    // 删除博客失败
+    // 删除文章失败
     deleteBlogFailInfo: {
         code: 11002,
-        msg: '删除博客失败，请重试'
+        msg: '删除文章失败，请重试'
     },
     // 获取枚举列表失败
     getEmusErrorInfo: {
         code: 11003,
         msg: '获取枚举列表失败'
-    }
+    },
+    // 创建日记失败
+    createDiaryFailInfo: {
+        code: 11001,
+        msg: '创建日记失败，请重试'
+    },
+    // 获取日记信息失败
+    getDiaryFailInfo: {
+        code: 1101,
+        msg: '获取日记信息失败，请重试'
+    },
 }

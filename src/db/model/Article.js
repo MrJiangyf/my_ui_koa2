@@ -1,11 +1,11 @@
 /**
- * @description 博客数据模型
+ * @description 博客文章数据模型
  */
 
 const seq = require("../seq");
 const { INTEGER, STRING, TEXT } = require("../types");
 
-const Blog = seq.define("blog", {
+const Article = seq.define("blog", {
     userId: {
         type: INTEGER,
         allowNull: false,
@@ -41,5 +41,5 @@ const Blog = seq.define("blog", {
 });
 
 module.exports = {
-    Blog
+    Article
 }

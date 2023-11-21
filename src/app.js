@@ -26,7 +26,8 @@ const userViewRouter = require("./routes/view/user");
 const userApiRouter = require("./routes/api/user");
 const untilsApiRouter = require("./routes/api/utils");
 const enumsApiRouter = require("./routes/api/enums");
-const blogHomeApiRouter = require("./routes/api/blog-home");
+const articleHomeApiRouter = require("./routes/api/article-home");
+const diaryHomeApiRouter = require("./routes/api/diary-home");
 // redis
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
@@ -121,7 +122,8 @@ app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods());
 app.use(untilsApiRouter.routes(), untilsApiRouter.allowedMethods());
 app.use(enumsApiRouter.routes(), enumsApiRouter.allowedMethods());
-app.use(blogHomeApiRouter.routes(), blogHomeApiRouter.allowedMethods());
+app.use(articleHomeApiRouter.routes(), articleHomeApiRouter.allowedMethods());
+app.use(diaryHomeApiRouter.routes(), diaryHomeApiRouter.allowedMethods());
 /**
  * error-handling
  * */

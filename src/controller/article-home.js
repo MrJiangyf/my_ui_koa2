@@ -1,11 +1,11 @@
 /**
  * @description 首页
  */
-const { createBlog, editBlogInfos, deleteBlogInfos, updateBlogRecoord } = require("../service/blog");
-const { SuccessModel, ErrorModel } = require("../model/ResModel");
+const { createBlog, editBlogInfos, deleteBlogInfos, updateBlogRecoord } = require("../service/article.js");
+const { SuccessModel, ErrorModel } = require("../model/ResModel.js");
 const xss = require("xss");
-const { createBlogFailInfo, getBlogFailInfo, editBlogFailInfo } = require("../model/ErrorInfos");
-const { filterBlogList } = require("../service/blog");
+const { createBlogFailInfo, getBlogFailInfo, editBlogFailInfo } = require("../model/ErrorInfos.js");
+const { filterBlogList } = require("../service/article.js");
 const { getTypeEnums } = require("../service/enums.js");
 /**
  * 创建博客
