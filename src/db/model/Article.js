@@ -5,7 +5,7 @@
 const seq = require("../seq");
 const { INTEGER, STRING, TEXT } = require("../types");
 
-const Article = seq.define("blog", {
+const Blog = seq.define("blog", {
     userId: {
         type: INTEGER,
         allowNull: false,
@@ -41,5 +41,5 @@ const Article = seq.define("blog", {
 });
 
 module.exports = {
-    Article
+    Blog
 }

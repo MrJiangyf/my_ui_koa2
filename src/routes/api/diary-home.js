@@ -13,7 +13,7 @@ const { loginCheck } = require("../../middlewares/loginChecks");
 router.post("/create", loginCheck, genValidator(articleValidate), async (ctx, next) => {
     const { pictures, content, title, auth, address, lon, lat } = ctx.request.body;
     const { id } = ctx.session.userInfo;
-    ctx.body = await create({ userId: id, pictures, content, title, type, labels, auth, address, lon, lat });
+    ctx.body = await create({ userId: id, pictures, content, title, auth, address, lon, lat });
 });
 /**
  * 删除日记内容接口

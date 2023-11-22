@@ -7,7 +7,10 @@ const { formatUser, formatBlog } = require("../utils/data_format");
  * 创建日记
  */
 async function createDiary(params) {
-    const result = await Diary.create(params);
+    const result = await Diary.create({
+        lookNums: 0,
+        ...params
+    });
     return result.dataValues;
 }
 /**

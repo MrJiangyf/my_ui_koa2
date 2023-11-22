@@ -221,7 +221,6 @@ async function changeInfo(ctx, { nickName, picture, gender }) {
 
 
 async function changePassword({ userName, password, newPassword }) {
-    debugger
     const result = await updateUser({
         newPassword: doCrypto(newPassword)
     }, {

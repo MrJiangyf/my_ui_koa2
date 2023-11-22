@@ -9,5 +9,4 @@ module.exports = {
     TEXT: Sequelize.TEXT,
     INTEGER: Sequelize.INTEGER,
     BOOLEAN: Sequelize.BOOLEAN,
-    ARRAYSTRING: DataTypes.ARRAY(DataTypes.STRING),
 }

@@ -3,53 +3,51 @@
  */
 
 const seq = require("../seq");
-const { INTEGER, STRING, TEXT, ARRAYSTRING } = require("../types");
+const { INTEGER, STRING, TEXT } = require("../types");
 
-const Article = seq.define("blog", {
+const Diary = seq.define("diary", {
     userId: {
         type: INTEGER,
         allowNull: false,
         comment: "用户ID"
     },
     title: {
-        type: TEXT,
         allowNull: false,
+        type: TEXT,
         comment: "日记标题"
     },
     content: {
+        allowNull: false,
         type: TEXT,
         comment: "日记内容"
     },
     auth: {
         type: STRING,
-        allowNull: false,
         comment: "日记权限"
     },
     lookNums: {
+        allowNull: false,
         type: INTEGER,
         comment: "查看次数"
     },
     pictures: {
-        type: ARRAYSTRING,
+        type: TEXT,
         comment: "日记图片"
     },
     address: {
         type: STRING,
-        allowNull: false,
         comment: "日记发布地址"
     },
     lon: {
         type: INTEGER,
-        allowNull: false,
         comment: "日记经度"
     },
     lat: {
         type: INTEGER,
-        allowNull: false,
         comment: "地址维度"
     },
 });
 
 module.exports = {
-    Article
+    Diary
 }
