@@ -59,7 +59,7 @@ async function editDiaryInfos({ diaryId, pictures, content, title, auth }) {
     if (auth) {
         updateData.auth = auth;
     }
-    const result = await Blog.update(updateData, {
+    const result = await Diary.update(updateData, {
         where: {
             id: diaryId
         }
@@ -70,7 +70,7 @@ async function editDiaryInfos({ diaryId, pictures, content, title, auth }) {
 /**
  * 根据指定条件过滤日记
  */
-async function filterDiaryList({ diaryId, type, userId, pageIndex = 0, pageSize = 10 }) {
+async function filterDiaryList({ diaryId, userId, pageIndex = 0, pageSize = 10 }) {
     // 拼接查询条件
     let query = {};
     let diaryTributes = ["id", "userId", "title", "content", "pictures", "auth", "address", "lon", "lat", "lookNums"];
@@ -82,8 +82,8 @@ async function filterDiaryList({ diaryId, type, userId, pageIndex = 0, pageSize 
     }
     // 根据传入条件查询博客列表
     let diaryList = await Diary.findAndCountAll({
-        limit: pageSize,
-        offset: pageIndex,
+        limit: pageSize * 1,
+        offset: pageIndex * 1,
         order: [["lookNums", "desc"]],
         where: query,
         attributes: diaryTributes
@@ -94,10 +94,6 @@ async function filterDiaryList({ diaryId, type, userId, pageIndex = 0, pageSize 
     // 添加用户人员信息
     for (let i = 0; i < diaryList.length; i++) {
         let item = diaryList[i];
-        // 查询菜单列表内容不用全部返还
-        if (type) {
-            item.content = item.content.slice(0, 100);
-        }
         // 根据用户ID查询用户信息
         let userInfos = await User.findOne({
             where: {

@@ -42,14 +42,13 @@ router.post("/updateLookRecoord", async (ctx, next) => {
  * 获取日记信息
  * */
 router.get("/getDiaryList", loginCheck, async (ctx, next) => {
-    const { diaryId, userId, type, pageIndex, pageSize } = ctx.request.query;
+    const { diaryId, userId, pageIndex, pageSize } = ctx.request.query;
     // 获取日记第一页的数据
     const result = await getDiaryList({
         pageIndex: pageIndex || 0,
         pageSize: pageSize || 1000,
         diaryId,
         userId,
-        type
     });
     // 返回日记列表相关数据
     ctx.body = result;
