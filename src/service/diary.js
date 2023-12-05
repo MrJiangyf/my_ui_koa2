@@ -70,7 +70,7 @@ async function editDiaryInfos({ diaryId, pictures, content, title, auth }) {
 /**
  * 根据指定条件过滤日记
  */
-async function filterDiaryList({ diaryId, userId, pageIndex = 0, pageSize = 10 }) {
+async function filterDiaryList({ diaryId, userId, pageIndex = 1, pageSize = 10 }) {
     // 拼接查询条件
     let query = {};
     let diaryTributes = ["id", "userId", "title", "content", "pictures", "auth", "address", "lon", "lat", "lookNums"];
