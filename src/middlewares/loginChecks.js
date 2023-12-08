@@ -23,7 +23,7 @@ async function loginCheck(ctx, next) {
             if (err) {
                 return {
                     msg: "Token验证失败",
-                    code: 200,
+                    code: 401,
                 }
             } else {
                 const userInfo = await getUserInfos(decoded.userNmae)
@@ -40,7 +40,7 @@ async function loginCheck(ctx, next) {
         } else {
             // 未登录
             ctx.body = new ErrorModel({
-                code: 500,
+                code: 401,
                 msg: data.msg || "未登录"
             })
         }
@@ -48,7 +48,7 @@ async function loginCheck(ctx, next) {
     }
     // 未登录
     ctx.body = new ErrorModel({
-        code: 500,
+        code: 401,
         msg: "未登录"
     })
 }

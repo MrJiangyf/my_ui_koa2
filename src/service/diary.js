@@ -84,7 +84,7 @@ async function filterDiaryList({ diaryId, userId, pageIndex = 1, pageSize = 10 }
     let diaryList = await Diary.findAndCountAll({
         limit: pageSize * 1,
         offset: pageIndex * 1,
-        order: [["lookNums", "desc"]],
+        order: [["createdAt", "desc"]],
         where: query,
         attributes: diaryTributes
     });

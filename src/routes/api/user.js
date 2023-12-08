@@ -86,7 +86,7 @@ router.post("/changePassword", loginCheck, genValidator(userValidate), async (ct
 /**
  * 退出登陆
  */
-router.post("/logout", loginCheck, async (ctx) => {
+router.post("/logout", async (ctx) => {
     ctx.body = await logout(ctx);
 });
 

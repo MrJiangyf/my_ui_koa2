@@ -74,7 +74,7 @@ router.get("/getMenuList", loginCheck, async (ctx, next) => {
 /**
  * 根据菜单code获取菜单列表数据
  * */
-router.get("/getMenuByCode", loginCheck, async (ctx, next) => {
+router.get("/getMenuByCode", async (ctx, next) => {
     const { userId, pageIndex, pageSize, code } = ctx.request.query;
     const result = await getMenuByCode({
         ctx,

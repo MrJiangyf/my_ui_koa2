@@ -26,14 +26,14 @@ router.post("/deleteDiary", async (ctx, next) => {
  * 编辑日记内容接口
  * */
 router.post("/editDiary", loginCheck, genValidator(articleValidate), async (ctx, next) => {
-    const { diaryId, content, title, auth } = ctx.request.body;
+    const { diaryId, content, title, auth, pictures } = ctx.request.body;
     ctx.body = await editDiary({ diaryId, pictures, content, title, auth });
 });
 
 /**
  * 更新日记查看记录
  * */
-router.post("/updateLookRecoord", async (ctx, next) => {
+router.post("/updateLookRecoord", loginCheck, async (ctx, next) => {
     const { diaryId } = ctx.request.body;
     ctx.body = await updateLookRecoord(diaryId);
 });

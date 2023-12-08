@@ -10,7 +10,7 @@ router.prefix("/api/utils");
 // 上传用户头像
 router.post("/uploadUserPhotos", koaFrom(), async (ctx, next) => {
     const file = ctx.req.files["file"];
-    const {size, path, name, type} = file;
+    const { size, path, name, type } = file;
     ctx.body = await saveUserPhoto({
         ctx,
         name,
@@ -23,7 +23,7 @@ router.post("/uploadUserPhotos", koaFrom(), async (ctx, next) => {
 // 上传文章图片
 router.post("/uploadArticleImgs", koaFrom(), async (ctx, next) => {
     const file = ctx.req.files["file"];
-    const {size, path, name, type} = file;
+    const { size, path, name, type } = file;
     ctx.body = await saveArticleImg({
         ctx,
         name,
@@ -36,7 +36,7 @@ router.post("/uploadArticleImgs", koaFrom(), async (ctx, next) => {
 // 上传日记图片
 router.post("/uploadDiaryImgs", koaFrom(), async (ctx, next) => {
     const file = ctx.req.files["file"];
-    const {size, path, name, type} = file;
+    const { size, path, name, type } = file;
     ctx.body = await saveDiaryImg({
         ctx,
         name,
