@@ -45,7 +45,7 @@ router.get("/getDiaryList", loginCheck, async (ctx, next) => {
     const { diaryId, userId, pageIndex, pageSize } = ctx.request.query;
     // 获取日记第一页的数据
     const result = await getDiaryList({
-        pageIndex: pageIndex || 0,
+        pageIndex: pageIndex || 1,
         pageSize: pageSize || 1000,
         diaryId,
         userId,

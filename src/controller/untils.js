@@ -47,7 +47,7 @@ async function saveDiaryImg({ ctx, name, type, size, filePath }) {
             msg: `文件过大，不能超过${MIX_SIZE}!`
         })
     }
-    let userId = ctx.session?.userInfo?.id;
+    let userId = (ctx.session && ctx.session.userInfo) ? ctx.session.userInfo.id : "";
     // 文件存储目录
     const diaryPhotos_save_img = path.join(__dirname, "..", "..", "uploadFiles", "diary_photos", "userId_" + userId);
     // 判断uploadFiles目录是否存在，不存在就创建

@@ -83,7 +83,7 @@ async function filterDiaryList({ diaryId, userId, pageIndex = 1, pageSize = 10 }
     // 根据传入条件查询博客列表
     let diaryList = await Diary.findAndCountAll({
         limit: pageSize * 1,
-        offset: pageIndex * 1,
+        offset: pageSize * (pageIndex - 1),
         order: [["createdAt", "desc"]],
         where: query,
         attributes: diaryTributes

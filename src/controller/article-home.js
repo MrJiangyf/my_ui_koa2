@@ -156,7 +156,7 @@ async function getBlogMenuList({ ctx, userId, pageIndex = 1, pageSize = 10 }) {
  * 根据菜单code获取菜单列表数据
  * */
 async function getMenuByCode({ ctx, code, userId, pageIndex = 1, pageSize = 10 }) {
-    let curUserId = ctx.session?.userInfo ? ctx.session?.userInfo?.id : ''; // 当前用户ID
+    let curUserId = (ctx.session && ctx.session.userInfo) ? ctx.session.userInfo.id : ''; // 当前用户ID
     let result = await filterBlogList({
         pageIndex: pageIndex || 0,
         pageSize: pageSize || 10000,
